@@ -1,0 +1,51 @@
+{%extends "base.html"%}
+
+{% block css%}
+<style>
+    
+</style>
+{% endblock %}
+
+{% block title%}
+Add Post
+{% endblock %}
+
+{%block content%}
+
+
+<div class="d-flex justify-content-center my-5 ">
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Title: {{post.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">author: {{post.author}}</h6>
+            <p class="card-text">content: {{post.content}}</p>
+            <a href="{{ url_for('update_post', id=post.id) }}" class="btn btn-outline-primary">Update</a>
+            <form action="{{ url_for('delete_post', id=post.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% if post.comments %}
+        <div class="comments-list mt-2 container">
+            <h6 class="text-secondary mb-3">Previous Comments</h6>
+ {% for comment in post.comments %}
+                <div class="d-flex mb-2">
+                    <div class="bg-light rounded-3 px-3 py-2 w-100 border-start border-primary border-3 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong class="text-dark small">{{ comment.author }}</strong>
+                        </div>
+                        <p class="mb-0 text-secondary mt-1 small">{{ comment.content }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    {% else %}
+        <p class="text-muted small ps-2">No comments yet. Be the first to comment!</p>
+    {% endif %}
+    
+{% endblock %}

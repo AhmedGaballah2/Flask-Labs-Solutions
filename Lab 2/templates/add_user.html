@@ -1,0 +1,37 @@
+{%extends "base.html"%}
+
+{% block title%}
+Add User
+{% endblock %}
+
+
+
+{% block css%}
+<style>
+    
+    div{
+        width: 80%;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+</style>
+{%endblock%}
+ {% block content%}
+ 
+ <div>
+
+     <h1>Add User</h1>
+     <form method="POST" action="{{ url_for('add_user') }}">
+         <div class="form-group">
+             <label for="name">Name:</label>
+             <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add User</button>
+        </form>
+    </div>
+    {% endblock %}

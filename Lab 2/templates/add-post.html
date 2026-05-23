@@ -1,0 +1,26 @@
+{%extends "base.html"%}
+
+{% block css%}
+<style>
+    
+</style>
+{% endblock %}
+
+{% block title%}
+Add Post
+{% endblock %}
+
+{%block content%}
+<div class="container mt-4 w-75">
+    <form action="/add-post" method="POST">
+        {{ form.hidden_tag() }} 
+
+        {% for field in form if field.name != 'csrf_token' %}
+            <div class="form-group d-flex mb-3">
+                <label class="form-label w-25"> {{ field.label }} </label>
+                {{ field(class="form-control") }}
+            </div>
+        {% endfor %}
+    </form>
+</div>
+{%endblock%}

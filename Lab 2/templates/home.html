@@ -1,0 +1,102 @@
+{%extends "base.html"%}
+
+{% block css%}
+<style>
+    div{
+
+        text-align: center;
+    }
+    h1{
+        display: inline-block;
+        padding: 10px;
+        border-bottom: solid black 1px;
+    }
+</style>
+{% endblock %}
+
+{% block title%}
+Home Page
+{% endblock %}
+
+{% block content%}
+<div >
+    <h1>Welcome, Home Page</h1>
+    
+</div>
+<div class="d-flex justify-content-between m-3 p-5 bg-primary-subtle">
+    <h2 class="text-dark">Posts</h2>
+    <a href="{{ url_for('add_post') }}" class="btn btn-success">Add Post</a>
+</div>
+  {%if  posts%}
+  <div class="container">
+
+{% for post in posts %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{post.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{post.author}}</h6>
+        <p class="card-text">{{post.content}}</p>
+        <a href="{{ url_for('update_post', id=post.id) }}" class="btn btn-outline-primary">Update</a>
+        <form action="{{ url_for('delete_post', id=post.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-outline-danger">Delete</button>
+        </form>
+        <a href="{{url_for('post_details',id=post.id)}}" class="btn btn-outline-dark">Details</a>
+    </div>
+    <button class="btn btn-sm btn-outline-secondary mt-2" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#commentSection{{post.id}}">
+    <i class="bi bi-chat-left-text"></i> Comments ({{ post.comments|length }})
+</button>
+
+<div class="collapse mt-3" id="commentSection{{post.id}}">
+    
+    <div class="card card-body bg-light mb-3 p-3">
+        <h6 class="card-title mb-2 text-muted">Write a comment</h6>
+        <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post">
+            
+            <div class="mb-2">
+                <input class="form-control form-control-sm" name="author" placeholder="Your Name" required />
+            </div>
+            
+            <div class="mb-2">
+                <textarea class="form-control form-control-sm" name="content" rows="2" placeholder="Write a comment..." required></textarea>
+            </div>
+            
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-sm btn-primary px-3">Add Comment</button>
+            </div>
+        </form>
+    </div>
+
+    
+    
+</div>
+
+
+{% if post.comments %}
+        <div class="comments-list mt-2">
+            <h6 class="text-secondary mb-3">Previous Comments</h6>
+            
+            {% for comment in post.comments %}
+                <div class="d-flex mb-2">
+                    <div class="bg-light rounded-3 px-3 py-2 w-100 border-start border-primary border-3 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong class="text-dark small">{{ comment.author }}</strong>
+                        </div>
+                        <p class="mb-0 text-secondary mt-1 small">{{ comment.content }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    {% else %}
+        <p class="text-muted small ps-2">No comments yet. Be the first to comment!</p>
+    {% endif %}
+{%endfor%}
+  </div>
+
+{%endif%}
+
+
+
+{% endblock %}
